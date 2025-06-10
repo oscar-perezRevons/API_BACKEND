@@ -17,7 +17,7 @@ Este backend permite gestionar usuarios, razas de gatos, imágenes, favoritos y 
 ## 📚 Documentación Interactiva (Swagger)
 
 Accede a la documentación y prueba los endpoints en:  
-[http://localhost:3000/doc](http://localhost:3000/doc)  
+[http://localhost:3000/doc](http://localhost:3000/api-docs)  
 *(o la URL de Railway si está desplegado)*
 
 ---
