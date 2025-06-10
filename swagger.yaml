@@ -1,0 +1,404 @@
+openapi: 3.0.0
+info:
+  title: Cat Social Network API
+  version: "1.0.0"
+  description: API para gestionar usuarios, razas, imágenes, favoritos y votos.
+
+servers:
+  - url: http://localhost:3000/api-docs
+
+paths:
+  /api/breeds:
+    get:
+      summary: Obtener todas las razas de gatos
+      tags:
+        - Breeds
+      responses:
+        '200':
+          description: Lista de razas
+    post:
+      summary: Crear una raza
+      tags:
+        - Breeds
+      requestBody:
+        description: Objeto raza a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name_breed
+                - origin_breed
+                - description_breed
+              properties:
+                name_breed:
+                  type: string
+                origin_breed:
+                  type: string
+                description_breed:
+                  type: string
+      responses:
+        '201':
+          description: Raza creada
+  /api/breeds/{id}:
+    put:
+      summary: Actualizar una raza
+      tags:
+        - Breeds
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name_breed:
+                  type: string
+                origin_breed:
+                  type: string
+                description_breed:
+                  type: string
+      responses:
+        '200':
+          description: Raza actualizada correctamente
+        '404':
+          description: Raza no encontrada
+    delete:
+      summary: Eliminar una raza
+      tags:
+        - Breeds
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Raza eliminada correctamente
+        '404':
+          description: Raza no encontrada
+
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Lista de usuarios
+    post:
+      summary: Crear un usuario
+      tags:
+        - Users
+      requestBody:
+        description: Objeto usuario a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name_user
+                - password_user
+              properties:
+                name_user:
+                  type: string
+                password_user:
+                  type: string
+      responses:
+        '201':
+          description: Usuario creado
+  /api/users/{id}:
+    put:
+      summary: Actualizar un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name_user:
+                  type: string
+                password_user:
+                  type: string
+      responses:
+        '200':
+          description: Usuario actualizado correctamente
+        '404':
+          description: Usuario no encontrado
+    delete:
+      summary: Eliminar un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario eliminado correctamente
+        '404':
+          description: Usuario no encontrado
+
+  /api/images:
+    get:
+      summary: Obtener todas las imágenes (con info de raza)
+      tags:
+        - Images
+      responses:
+        '200':
+          description: Lista de imágenes
+    post:
+      summary: Crear una imagen
+      tags:
+        - Images
+      requestBody:
+        description: Objeto imagen a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url_image
+                - id_breed
+              properties:
+                url_image:
+                  type: string
+                id_breed:
+                  type: integer
+      responses:
+        '201':
+          description: Imagen creada
+  /api/images/{id}:
+    put:
+      summary: Actualizar una imagen
+      tags:
+        - Images
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url_image:
+                  type: string
+                id_breed:
+                  type: integer
+      responses:
+        '200':
+          description: Imagen actualizada correctamente
+        '404':
+          description: Imagen no encontrada
+    delete:
+      summary: Eliminar una imagen
+      tags:
+        - Images
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Imagen eliminada correctamente
+        '404':
+          description: Imagen no encontrada
+
+  /api/favourites/{id_user}:
+    get:
+      summary: Obtener todos los favoritos de un usuario
+      tags:
+        - Favourites
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de favoritos del usuario
+
+  /api/favourites:
+    post:
+      summary: Agregar un favorito
+      tags:
+        - Favourites
+      requestBody:
+        description: Objeto favorito a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id_user
+                - id_image
+              properties:
+                id_user:
+                  type: integer
+                id_image:
+                  type: integer
+      responses:
+        '201':
+          description: Favorito creado
+
+  /api/favourites/{id}:
+    put:
+      summary: Actualizar favorito
+      tags:
+        - Favourites
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Datos del favorito a actualizar
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_user:
+                  type: integer
+                id_image:
+                  type: integer
+      responses:
+        '200':
+          description: Favorito actualizado correctamente
+        '404':
+          description: Favorito no encontrado
+    delete:
+      summary: Eliminar favorito
+      tags:
+        - Favourites
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Favorito eliminado correctamente
+        '404':
+          description: Favorito no encontrado
+
+  /api/votes/{id_image}:
+    get:
+      summary: Obtener votos de una imagen
+      tags:
+        - Votes
+      parameters:
+        - in: path
+          name: id_image
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de votos de la imagen
+
+  /api/votes:
+    post:
+      summary: Agregar voto
+      tags:
+        - Votes
+      requestBody:
+        description: Objeto voto a crear
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - value_vote
+                - id_user
+                - id_image
+              properties:
+                value_vote:
+                  type: integer
+                id_user:
+                  type: integer
+                id_image:
+                  type: integer
+      responses:
+        '201':
+          description: Voto creado
+
+  /api/votes/{id}:
+    put:
+      summary: Actualizar voto
+      tags:
+        - Votes
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Datos del voto a actualizar
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value_vote:
+                  type: integer
+                id_user:
+                  type: integer
+                id_image:
+                  type: integer
+      responses:
+        '200':
+          description: Voto actualizado correctamente
+        '404':
+          description: Voto no encontrado
+    delete:
+      summary: Eliminar voto
+      tags:
+        - Votes
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Voto eliminado correctamente
+        '404':
+          description: Voto no encontrado
