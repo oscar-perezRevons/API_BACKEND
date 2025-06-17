@@ -14,6 +14,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+// get todas las imágenes de una raza
+router.get('/breed/:name_breed', async (req, res) => {
+    try {
+        const nameBreed = req.params.name_breed;
+        const [results] = await pool.query(
+            'SELECT image.*, breed.name_breed FROM image LEFT JOIN breed ON image.id_breed = breed.id_breed WHERE breed.name_breed = ?',
+            [nameBreed]
+        );
+
+        if (results.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontraron imágenes para esta raza' });
+        }
+
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener imágenes de la raza' });
+    }
+});
+
 // Crear una imagen
 router.post('/', async (req, res) => {
     const { url_image, id_breed } = req.body;
