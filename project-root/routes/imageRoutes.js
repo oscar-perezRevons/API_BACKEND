@@ -76,5 +76,23 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ mensaje: 'Error al eliminar imagen' });
     }
 });
+// Obtener imagen por ID (con info de raza opcional)
+router.get('/:id', async (req, res) => {
+    try {
+        const [results] = await pool.query(
+            'SELECT image.*, breed.name_breed FROM image LEFT JOIN breed ON image.id_breed = breed.id_breed WHERE id_image = ?',
+            [req.params.id]
+        );
+
+        if (results.length === 0) {
+            return res.status(404).json({ mensaje: 'Imagen no encontrada' });
+        }
+
+        res.json(results[0]); // Devuelve solo 1 imagen
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener la imagen' });
+    }
+});
+
 
 module.exports = router;
