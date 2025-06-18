@@ -31,15 +31,6 @@ router.get('/by-user/:sub_id', async (req, res) => {
     res.json(results);
 });
 
-// ✅ Votos de una imagen — GENÉRICA, AL FINAL
-router.get('/:id_image', async (req, res) => {
-    const [results] = await pool.query(
-        'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user WHERE vote.id_image = ?',
-        [req.params.id_image]
-    );
-    res.json(results);
-});
-
 // POST, PUT, DELETE igual, no cambian.
 // Agregar voto
 router.post('/', async (req, res) => {
