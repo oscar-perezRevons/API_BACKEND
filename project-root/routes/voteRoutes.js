@@ -13,6 +13,21 @@ router.get('/', async (req, res) => {
         res.status(500).json({ mensaje: 'Error al obtener todos los votos' });
     }
 });
+// Obtener UN voto por id_vote
+router.get('/vote/:id_vote', async (req, res) => {
+    try {
+        const [results] = await pool.query(
+            'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user WHERE vote.id_vote = ?',
+            [req.params.id_vote]
+        );
+        if (results.length === 0) {
+            return res.status(404).json({ mensaje: 'Voto no encontrado' });
+        }
+        res.json(results[0]);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener el voto' });
+    }
+});
 // Obtener votos de una imagen
 router.get('/:id_image', async (req, res) => {
     try {
