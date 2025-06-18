@@ -4,11 +4,15 @@ const pool = require('../config/db');
 
 // ✅ Todos los votos
 router.get('/', async (req, res) => {
-    const [results] = await pool.query(
-        'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user'
-    );
-    res.json(results);
+  const [results] = await pool.query(
+    `SELECT vote.*, user_.name_user, image.url_image
+     FROM vote 
+     JOIN user_ ON vote.id_user = user_.id_user
+     JOIN image ON vote.id_image = image.id_image`
+  );
+  res.json(results);
 });
+
 
 // ✅ UN voto por ID
 router.get('/vote/:id_vote', async (req, res) => {
