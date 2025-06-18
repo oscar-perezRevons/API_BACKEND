@@ -14,6 +14,23 @@ router.get('/', async (req, res) => {
     }
 });
 
+// obtener todas las imágenes de una sola raza
+router.get('/images/:name', async (req, res) => {
+    const name = req.params.name;
+    try {
+        const [results] = await pool.query(
+            `SELECT image.*, breed.name_breed 
+             FROM image 
+             LEFT JOIN breed ON image.id_breed = breed.id_breed 
+             WHERE breed.name_breed = ?`,
+            [name]
+        );
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener imágenes' });
+    }
+});
+
 // Crear una imagen
 router.post('/', async (req, res) => {
     const { url_image, id_breed } = req.body;
