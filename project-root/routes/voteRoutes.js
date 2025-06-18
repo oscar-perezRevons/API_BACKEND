@@ -70,5 +70,14 @@ router.get('/by-user/:sub_id', async (req, res) => {
         res.status(500).json({ mensaje: 'Error al obtener votos por usuario' });
     }
 });
-
+router.get('/', async (req, res) => {
+    try {
+        const [results] = await pool.query(
+            'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user'
+        );
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener todos los votos' });
+    }
+});
 module.exports = router;
