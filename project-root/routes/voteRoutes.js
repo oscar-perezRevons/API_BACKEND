@@ -58,5 +58,17 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ mensaje: 'Error al eliminar voto' });
     }
 });
+// Buscar votos por ID de usuario (sub_id)
+router.get('/by-user/:sub_id', async (req, res) => {
+    try {
+        const [results] = await pool.query(
+            'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user WHERE vote.id_user = ?',
+            [req.params.sub_id]
+        );
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener votos por usuario' });
+    }
+});
 
 module.exports = router;
