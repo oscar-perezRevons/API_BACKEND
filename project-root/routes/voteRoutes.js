@@ -1,7 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
+//obtener todos los votos
 
+router.get('/', async (req, res) => {
+    try {
+        const [results] = await pool.query(
+            'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user'
+        );
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener todos los votos' });
+    }
+});
 // Obtener votos de una imagen
 router.get('/:id_image', async (req, res) => {
     try {
@@ -56,6 +67,18 @@ router.delete('/:id', async (req, res) => {
         res.json({ mensaje: 'Voto eliminado correctamente' });
     } catch (err) {
         res.status(500).json({ mensaje: 'Error al eliminar voto' });
+    }
+});
+// Buscar votos por ID de usuario (sub_id)
+router.get('/by-user/:sub_id', async (req, res) => {
+    try {
+        const [results] = await pool.query(
+            'SELECT vote.*, user_.name_user FROM vote JOIN user_ ON vote.id_user = user_.id_user WHERE vote.id_user = ?',
+            [req.params.sub_id]
+        );
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ mensaje: 'Error al obtener votos por usuario' });
     }
 });
 
