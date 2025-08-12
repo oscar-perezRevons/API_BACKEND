@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     res.send(`
     <h2>¡Bienvenido a la API de Cat Social Network!</h2>
     <p>
-      Usa la siguiente ruta para conocer más información sobre el enrutamiento de esta API:<br>
+      Usa la siguiente ruta para conocer más información sobre el enrutamiento de esta API desarrollado a continuación:<br>
       <p>Despliegue de manera local del backend</p>
       <a href="http://localhost:3000/api-docs" target="_blank">http://localhost:3000/api-docs</a>
       <p>Despliegue en produccion del backend</p>
